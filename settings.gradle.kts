@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Tasks"
 include(":app")
+include(":storage")
