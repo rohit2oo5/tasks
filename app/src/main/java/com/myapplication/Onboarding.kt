@@ -52,11 +52,12 @@ import kotlinx.coroutines.launch
 import androidx.compose.foundation.Image
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavController
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Onboarding() {
+fun Onboarding(context: Context, navController: NavController) {
 
     val context = LocalContext.current
 
@@ -171,6 +172,8 @@ fun Onboarding() {
                     dataStore.saveUserName(userNameState.value)
                     dataStore.savePassword(passwordState.value)
                     }
+
+                    navController.navigate(Home.route)
                  },
                 colors = ButtonDefaults
                     .buttonColors(secondaryBlue),
@@ -191,10 +194,11 @@ fun Onboarding() {
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
-
             Divider(thickness = 1.dp, color = Color.White)
+            Spacer(modifier = Modifier.height(40.dp))
+
+
         }
-        Spacer(modifier = Modifier.height(40.dp))
 
 
 

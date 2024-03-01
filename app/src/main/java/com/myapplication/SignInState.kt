@@ -1,4 +1,4 @@
-package com.myapplication.ui.theme
+package com.myapplication
 
 data class SignInState (
     val isSignInSucessful: Boolean = false,
