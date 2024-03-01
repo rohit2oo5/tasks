@@ -2,7 +2,6 @@ package com.myapplication
 
 import androidx.lifecycle.ViewModel
 import com.myapplication.presentation.sign_in.SignInResult
-import com.myapplication.ui.theme.SignInState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

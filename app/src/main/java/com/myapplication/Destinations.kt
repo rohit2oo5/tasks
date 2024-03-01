@@ -1,4 +1,4 @@
-package com.myapplication.ui.theme
+package com.myapplication
 
 interface Destinations {
     val route: String
@@ -6,4 +6,8 @@ interface Destinations {
 
 object Onboarding: Destinations {
     override val route: String = "Onboarding"
+}
+
+object Home: Destinations {
+    override val route: String = "Home"
 }
