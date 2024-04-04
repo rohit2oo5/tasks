@@ -1,39 +1,19 @@
 package com.myapplication
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
 import com.myapplication.ui.theme.TasksTheme
-import kotlinx.coroutines.launch
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.navigation.Navigation
 import androidx.navigation.compose.rememberNavController
+import com.myapplication.MainViewModel
+import com.myapplication.NavigationComposable
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: GoogleSigninViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,13 +25,8 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             TasksTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    val navController = rememberNavController()
-                    NavigationComposable(context = applicationContext,navController = navController)
-                }
+                val navController = rememberNavController()
+                NavigationComposable(context = applicationContext, navController = navController)
             }
         }
     }

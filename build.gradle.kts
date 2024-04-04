@@ -1,9 +1,4 @@
-buildscript{
-    dependencies{
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.9.22")
-    }
-}
 plugins {
-    id("com.android.application") version "8.2.2" apply false
-    id("org.jetbrains.kotlin.android") version "1.8.20" apply false
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.jetbrainsKotlinApplication) apply false
 }

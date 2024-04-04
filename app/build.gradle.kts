@@ -1,7 +1,6 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.jetbrainsKotlinApplication)
 }
 
 android {
@@ -10,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "com.myapplication"
-        minSdk = 24
-        targetSdk = 33
+        minSdk = 34
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -41,7 +40,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.8"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
@@ -52,39 +51,42 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3:1.1.2")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.ui.material3)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.tooling.manifest)
 
-    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation(libs.androidx.material.icons.extended)
 
-    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation(libs.androidx.core.splashscreen)
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation(libs.androidx.credentials)
+    implementation(libs.googleid)
 
-    implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
-    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation(libs.androidx.navigation.compose)
 
-    implementation ("androidx.compose.material:material-icons-extended:1.7.0-alpha01")
+    implementation(libs.coil.compose)
 
-    implementation ("androidx.compose.ui:ui:1.6.0")
-    implementation ("androidx.compose.material:material:1.6.0")
+    implementation (libs.androidx.ui)
+    implementation (libs.androidx.material)
 
-    implementation("androidx.datastore:datastore-preferences-android:1.1.0-beta01")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation(libs.androidx.datastore.preferences.android)
+
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.play.services.auth)
 }
+

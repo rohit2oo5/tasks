@@ -1,7 +1,7 @@
 package com.myapplication
 
 import android.content.Context
-import android.graphics.drawable.Icon
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,14 +19,11 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,38 +31,29 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.datastore.dataStore
-import androidx.navigation.NavHostController
 import com.myapplication.ui.theme.primaryBlue
 import com.myapplication.ui.theme.secondaryBlue
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import androidx.compose.foundation.Image
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun Onboarding(context: Context, navController: NavController) {
 
-    val context = LocalContext.current
-
-    val scope = rememberCoroutineScope()
 
     val dataStore = UserDetail(context)
-
-
+    val scope = rememberCoroutineScope()
 
     val userNameState = remember{
         mutableStateOf("")
@@ -80,6 +68,7 @@ fun Onboarding(context: Context, navController: NavController) {
     }
 
     val scrollState = rememberScrollState()
+
 
 
     Column(
@@ -111,12 +100,12 @@ fun Onboarding(context: Context, navController: NavController) {
 
         Column(modifier = Modifier
             .fillMaxWidth(0.7f)) {
-            
+
             Text(
                 text = "User Name",
                 color = Color.White
             )
-            
+
             OutlinedTextField(
                 maxLines = 1,
                 value = userNameState.value,
@@ -133,76 +122,92 @@ fun Onboarding(context: Context, navController: NavController) {
             Spacer(modifier = Modifier
                 .height(50.dp))
             Text(
-                text = "Password",
-                color = Color.White
-            )
+                    text = "Password",
+                    color = Color.White
+                )
 
-            OutlinedTextField(
-                maxLines = 1,
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        value = passwordState.value,
-                onValueChange = {passwordState.value = it},
-                label = { Text(text = "Password")},
-                colors = OutlinedTextFieldDefaults.
-                colors(
-                    focusedBorderColor = primaryBlue,
-                    focusedLabelColor = primaryBlue,
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White
-                    ),
-                trailingIcon = {
-                    val image = if (passwordVisible) {
-                        Icons.Filled.Visibility
-                    } else Icons.Filled.VisibilityOff
+                OutlinedTextField(
+                    maxLines = 1,
+                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            value = passwordState.value,
+                    onValueChange = {passwordState.value = it},
+                    label = { Text(text = "Password")},
+                    colors = OutlinedTextFieldDefaults.
+                    colors(
+                        focusedBorderColor = primaryBlue,
+                        focusedLabelColor = primaryBlue,
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White
+                        ),
+                    trailingIcon = {
+                        val image = if (passwordVisible) {
+                            Icons.Filled.Visibility
+                        } else Icons.Filled.VisibilityOff
 
+                        val description = if (passwordVisible) "Hide password" else "Show password"
 
-                    val description = if (passwordVisible) "Hide password" else "Show password"
-
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, description )
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(imageVector = image, description )
+                        }
                     }
+                )
+                Spacer(modifier = Modifier.height(60.dp))
+
+                Button(
+                        onClick = { if (validateRegData(userNameState.value, passwordState.value)){
+                            scope.launch {
+                                dataStore.saveUserName(userNameState.value)
+                                dataStore.savePassword(passwordState.value)
+                            }
+                            navController.navigate(Home.route)
+                        } else {
+                            Toast.makeText(context,
+                                "Invalid Details, Please try again",
+                                Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    },
+                    colors = ButtonDefaults
+                        .buttonColors(secondaryBlue),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                ){
+                    Text(text = "Sign In")
                 }
-            )
 
-            Spacer(modifier = Modifier.height(60.dp))
+                Spacer(modifier = Modifier
+                    .height(50.dp))
 
-            Button(
-                onClick = { scope.launch {
-                    dataStore.saveUserName(userNameState.value)
-                    dataStore.savePassword(passwordState.value)
-                    }
+                Text(
+                    text = "or",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                HorizontalDivider(thickness = 1.dp, color = Color.White)
+                Spacer(modifier = Modifier.height(40.dp))
 
-                    navController.navigate(Home.route)
-                 },
-                colors = ButtonDefaults
-                    .buttonColors(secondaryBlue),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-            ) {
-                Text(text = "Sign In")
+
+                Button(onClick = {  },
+                    colors = ButtonDefaults
+                        .buttonColors(Color.White),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)) {
+                    Text(text = "SignIn with Google",
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
-
-            Spacer(modifier = Modifier
-                .height(50.dp))
-
-            Text(
-                text = "or",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Divider(thickness = 1.dp, color = Color.White)
-            Spacer(modifier = Modifier.height(40.dp))
-
-
         }
 
-
-
-    }
 }
+
+
+
 
 
